@@ -1,0 +1,44 @@
+{
+ "dossiers": [
+  {
+   "id": "D1",
+   "debut": "2026-11-05T12:55:27Z",
+   "client": "Kirane",
+   "canal": "WhatsApp",
+   "statut": "en_cours",
+   "etape": "collecte",
+   "motif": "forfait",
+   "ref": null,
+   "details": {},
+   "prioritaire": false,
+   "colere": false,
+   "code_secret": false,
+   "note": null,
+   "resolu_le": null,
+   "escalade": null,
+   "maj": "2026-11-05T12:56:10Z",
+   "echanges": [
+    {
+     "de": "client",
+     "quand": "2026-11-05T12:55:27Z",
+     "texte": "Bonjour"
+    },
+    {
+     "de": "mtn",
+     "quand": "2026-11-05T12:55:32Z",
+     "texte": "Bonjour Kirane, ici le service client MTN Côte d'Ivoire 💛\nJe suis l'assistant des réclamations. Quel est votre souci ?\n\n1️⃣ Transfert Mobile Money débité, non reçu\n2️⃣ Crédit ou forfait payé, non activé\n3️⃣ Réseau ou internet coupé\n4️⃣ Frais ou montant contesté\n5️⃣ Autre réclamation\n\nRépondez par le chiffre, ou décrivez directement votre problème. Écrivez « conseiller » à tout moment pour parler à une personne."
+    },
+    {
+     "de": "client",
+     "quand": "2026-11-05T12:56:05Z",
+     "texte": "2"
+    },
+    {
+     "de": "mtn",
+     "quand": "2026-11-05T12:56:10Z",
+     "texte": "📌 Crédit ou forfait payé, non activé. Désolée pour ce désagrément, je m'en occupe.\n\nPour que votre réclamation parte complète, envoyez-moi en un seul message le nom du forfait ou du crédit et la date et l'heure.\nPar exemple : pass internet 2 000 F acheté ce matin vers 9 h."
+    }
+   ]
+  }
+ ]
+}

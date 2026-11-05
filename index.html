@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MTN Côte d'Ivoire · Réclamations WhatsApp</title>
+<style>
+:root{--j:#FFCB05;--f:#202020;--jc:#FFF4C2;--g:#6B7280;--fond:#F5F5F2;--filet:#E5E5E0;--vert:#1E8E5A;--rouge:#C62828;--orange:#E07B00;--bleu:#2563EB}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--fond);color:var(--f)}
+header{background:var(--f);color:#fff;padding:14px 22px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+header img{height:46px;border-radius:6px}header h1{font-size:20px;margin:0}header .s{color:#C9C9C9;font-size:13px;margin-top:2px}
+.bascule{margin-left:auto;display:flex;background:#333;border-radius:20px;padding:3px}
+.bascule button{border:0;background:none;color:#ddd;padding:7px 14px;border-radius:17px;cursor:pointer;font-size:13px}
+.bascule button.on{background:var(--j);color:var(--f);font-weight:bold}
+.bandeau{background:var(--jc);border-bottom:1px solid #EBD98A;padding:8px 22px;font-size:13px}
+main{padding:18px 22px;max-width:1300px;margin:auto}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.k{background:#fff;border-radius:10px;padding:14px;border-top:4px solid var(--j)}
+.k .v{font-size:28px;font-weight:bold}.k .l{font-size:12px;color:var(--g);margin-top:4px}
+.grille{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px}
+@media(max-width:900px){.grille{grid-template-columns:1fr}}
+.carte{background:#fff;border-radius:10px;padding:14px}
+.carte h2{font-size:15px;margin:0 0 10px;padding-bottom:6px;border-bottom:2px solid var(--j)}
+.barre{margin:8px 0}.barre .t{display:flex;justify-content:space-between;font-size:13px}
+.barre .b{height:10px;background:#EEE;border-radius:5px;margin-top:3px;overflow:hidden}.barre .b i{display:block;height:100%;background:var(--j)}
+.prio{font-size:13px;padding:7px 0;border-bottom:1px solid var(--filet);cursor:pointer}.prio:hover{background:#FAFAF5}
+.vide{color:var(--g);font-size:13px;font-style:italic}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:var(--j);text-align:left;padding:8px;position:sticky;top:0}
+td{padding:8px;border-bottom:1px solid var(--filet);vertical-align:top}
+tr.l:hover{background:#FFFBE6;cursor:pointer}
+.pill{display:inline-block;padding:2px 9px;border-radius:10px;font-size:12px;font-weight:bold;white-space:nowrap}
+.resolu{background:#DFF3E8;color:var(--vert)}.en_cours{background:#E7EEFD;color:var(--bleu)}.escalade{background:#FDE3E3;color:var(--rouge)}
+.filtres{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.filtres button{border:1px solid var(--filet);background:#fff;padding:6px 12px;border-radius:16px;cursor:pointer;font-size:12px}
+.filtres button.on{background:var(--f);color:#fff;border-color:var(--f)}
+.tab{max-height:520px;overflow:auto}
+.drap{font-size:11px;margin-left:4px}
+#fil{position:fixed;top:0;right:0;height:100%;width:min(440px,100%);background:#ECE5DD;box-shadow:-4px 0 18px rgba(0,0,0,.2);transform:translateX(105%);transition:.25s;display:flex;flex-direction:column;z-index:5}
+#fil.ouvert{transform:none}
+#fil .h{background:var(--f);color:#fff;padding:12px 14px;display:flex;align-items:center;gap:10px}
+#fil .h button{margin-left:auto;background:none;border:0;color:#fff;font-size:22px;cursor:pointer}
+#fil .corps{overflow:auto;padding:12px;flex:1}
+.bulle{max-width:85%;padding:8px 10px;border-radius:8px;margin:6px 0;font-size:13px;white-space:pre-wrap;box-shadow:0 1px 1px rgba(0,0,0,.1)}
+.client{background:#fff}.mtn{background:#FFF4C2;margin-left:auto}
+.bulle .q{font-size:10px;color:var(--g);text-align:right;margin-top:3px}
+.fiche{background:#fff;border-radius:8px;padding:10px;font-size:12px;margin-bottom:8px}
+footer{text-align:center;color:var(--g);font-size:12px;padding:20px}
+.direct{display:inline-block;width:9px;height:9px;border-radius:50%;background:#2ECC71;margin-right:6px;animation:p 1.5s infinite}
+@keyframes p{50%{opacity:.3}}
+</style>
+</head>
+<body>
+<header>
+ <img src="logo.png" alt="MTN">
+ <div><h1>Réclamations WhatsApp</h1><div class="s">MTN Côte d'Ivoire · Service client · Tableau de bord</div></div>
+ <div class="bascule"><button id="bDirect" class="on">En direct</button><button id="bExemple">Journée type</button></div>
+</header>
+<div class="bandeau" id="bandeau"></div>
+<main>
+ <div class="kpis" id="kpis"></div>
+ <div class="grille">
+  <div class="carte"><h2>Motifs de réclamation</h2><div id="motifs"></div></div>
+  <div class="carte"><h2>Cas qui reviennent</h2><div id="communs"></div></div>
+  <div class="carte"><h2>À traiter en priorité</h2><div id="prios"></div></div>
+ </div>
+ <div class="carte" style="margin-top:12px">
+  <h2>Tous les dossiers</h2>
+  <div class="filtres" id="filtres"></div>
+  <div class="tab"><table><thead><tr><th>Arrivée</th><th>Client</th><th>Motif</th><th>Détails</th><th>Référence</th><th>Statut</th><th>Note</th></tr></thead><tbody id="lignes"></tbody></table></div>
+ </div>
+</main>
+<footer>MTN Côte d'Ivoire · Service client · Usage interne</footer>
+<aside id="fil"><div class="h"><div><b id="filNom"></b><div style="font-size:12px;color:#ccc" id="filRef"></div></div><button onclick="fermer()">×</button></div><div class="corps" id="filCorps"></div></aside>
+<script>
+const TITRE={momo:'Mobile Money non reçu',forfait:'Forfait non activé',reseau:'Réseau coupé',frais:'Frais contestés',autre:'Autre'};
+const ICO={momo:'💸',forfait:'📶',reseau:'📡',frais:'🧾',autre:'📝'};
+const ST={resolu:'Résolu',en_cours:'En cours',escalade:'Escaladé'};
+let mode='direct',D=[],filtre='tous',minuteur=null;
+const $=(i)=>document.getElementById(i);
+const heure=(s)=>new Date(s).toLocaleString('fr-FR',{timeZone:'Africa/Abidjan',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}).replace(' ',' à ');
+const esc=(s)=>String(s??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const det=(x)=>Object.entries(x.details||{}).filter(([k])=>k!=='detail').map(([,v])=>v).join(' · ');
+async function charger(){
+  const f=mode==='direct'?'direct.json':'exemple.json';
+  try{const r=await fetch(f+'?t='+Date.now());D=(await r.json()).dossiers||[];}catch(e){D=[];}
+  rendu();
+}
+function rendu(){
+  $('bandeau').innerHTML=mode==='direct'
+    ?'<span class="direct"></span><b>En direct</b> : les réclamations reçues par l\'assistant dans la démo WhatsApp (Kirane, cliente test). Mise à jour automatique toutes les 30 secondes.'
+    :'<b>Journée type</b> : données d\'exemple pour montrer le tableau de bord en pleine activité (46 réclamations). Aucun vrai client.';
+  const jour=D.filter(x=>!x.ancien);const n=jour.length;
+  const res=jour.filter(x=>x.statut==='resolu').length,esca=D.filter(x=>x.statut==='escalade').length,enc=D.filter(x=>x.statut==='en_cours').length;
+  const notes=D.filter(x=>x.note).map(x=>x.note);const moy=notes.length?(notes.reduce((a,b)=>a+b,0)/notes.length).toFixed(1).replace('.',','):'–';
+  const pec=jour.filter(x=>x.prise_en_charge||x.enregistre_le).map(x=>(new Date(x.prise_en_charge||x.enregistre_le)-new Date(x.debut))/60000);
+  const delai=pec.length?Math.round(pec.reduce((a,b)=>a+b,0)/pec.length)+' min':'–';
+  const k=[[n,'réclamations reçues'],[n?Math.round(res/n*100)+' %':'–','résolues ('+res+')'],[enc,'en cours'],[esca,'escaladées à la responsable'],[delai,'avant prise en charge'],[moy+(notes.length?' / 5':''),'satisfaction ('+notes.length+' notes)']];
+  $('kpis').innerHTML=k.map(([v,l])=>`<div class="k"><div class="v">${v}</div><div class="l">${l}</div></div>`).join('');
+  const cpt={};D.forEach(x=>{const m=x.motif||'autre';cpt[m]=(cpt[m]||0)+1});const max=Math.max(1,...Object.values(cpt));
+  $('motifs').innerHTML=Object.keys(cpt).length?Object.entries(cpt).sort((a,b)=>b[1]-a[1]).map(([m,v])=>{const r=D.filter(x=>(x.motif||'autre')===m&&x.statut==='resolu').length;return `<div class="barre"><div class="t"><span>${ICO[m]} ${TITRE[m]}</span><b>${v}</b></div><div class="b"><i style="width:${v/max*100}%"></i></div><div style="font-size:11px;color:var(--g)">${r} résolu${r>1?'s':''}</div></div>`}).join(''):'<div class="vide">Pas encore de réclamation.</div>';
+  const c=[];
+  const lieux={};D.filter(x=>x.details?.lieu).forEach(x=>lieux[x.details.lieu]=(lieux[x.details.lieu]||0)+1);
+  Object.entries(lieux).filter(([,v])=>v>=2).sort((a,b)=>b[1]-a[1]).forEach(([l,v])=>c.push(`📡 <b>${v} coupures réseau à ${l}</b> : incident probable, à signaler à l'équipe réseau`));
+  const fo={};D.filter(x=>x.details?.forfait).forEach(x=>fo[x.details.forfait]=(fo[x.details.forfait]||0)+1);
+  Object.entries(fo).filter(([,v])=>v>=2).sort((a,b)=>b[1]-a[1]).slice(0,2).forEach(([l,v])=>c.push(`📶 <b>${v} × ${l}</b> payé sans activation`));
+  const mm=D.filter(x=>x.motif==='momo');if(mm.length>=2){const tot=mm.reduce((a,x)=>a+(parseInt((x.details?.montant||'0').replace(/\D/g,''))||0),0);c.push(`💸 <b>${mm.length} transferts Mobile Money</b> non reçus, ${tot.toLocaleString('fr-FR')} F en attente`)}
+  const fr=D.filter(x=>x.motif==='frais');if(fr.length>=2)c.push(`🧾 <b>${fr.length} prélèvements en double</b> signalés`);
+  if(!c.length&&D.length)D.slice(-3).forEach(x=>c.push(`${ICO[x.motif||'autre']} ${TITRE[x.motif||'autre']}${det(x)?' : '+esc(det(x)):''}`));
+  $('communs').innerHTML=c.length?c.map(t=>`<div class="prio" style="cursor:default">${t}</div>`).join(''):'<div class="vide">Rien qui revient pour l\'instant.</div>';
+  const p=[];
+  D.forEach(x=>{const ouv=x.statut!=='resolu';
+    if(x.code_secret)p.push([0,x,'🔒 Code secret envoyé par le client : averti, rien gardé']);
+    if(x.colere&&ouv)p.push([1,x,'🔴 Client en colère']);
+    if(x.statut==='escalade')p.push([2,x,'⬆️ Escaladé : '+esc(x.escalade||'')]);
+    if(ouv&&(Date.now()-new Date(x.debut))>48*3600e3)p.push([3,x,'⏳ Ouvert depuis plus de 48 h']);
+    if(x.note&&x.note<=2)p.push([4,x,'⭐ Note basse : '+x.note+'/5']);});
+  p.sort((a,b)=>a[0]-b[0]||new Date(a[1].debut)-new Date(b[1].debut));
+  $('prios').innerHTML=p.length?p.map(([,x,t])=>`<div class="prio" onclick="ouvrir('${x.id}')">${t}<br><span style="color:var(--g)">${esc(x.client)} · ${x.ref||'en cours d\'enregistrement'}</span></div>`).join(''):'<div class="vide">Aucune urgence.</div>';
+  const f=[['tous','Tous',D.length],['en_cours','En cours',enc],['escalade','Escaladés',esca],['resolu','Résolus',D.filter(x=>x.statut==='resolu').length]];
+  $('filtres').innerHTML=f.map(([k,l,v])=>`<button class="${filtre===k?'on':''}" onclick="filtre='${k}';rendu()">${l} (${v})</button>`).join('');
+  const L=D.filter(x=>filtre==='tous'||x.statut===filtre).sort((a,b)=>new Date(b.debut)-new Date(a.debut));
+  $('lignes').innerHTML=L.length?L.map(x=>`<tr class="l" onclick="ouvrir('${x.id}')"><td>${heure(x.debut)}</td><td>${esc(x.client)}</td><td>${ICO[x.motif||'autre']} ${x.motif?TITRE[x.motif]:'<i>à préciser</i>'}</td><td>${esc(det(x))}</td><td>${x.ref||'–'}</td><td><span class="pill ${x.statut}">${ST[x.statut]}</span>${x.colere?'<span class="drap">🔴</span>':''}${x.code_secret?'<span class="drap">🔒</span>':''}</td><td>${x.note?x.note+'/5':''}</td></tr>`).join(''):'<tr><td colspan="7" class="vide">Aucun dossier.</td></tr>';
+  if(ouvert)ouvrir(ouvert);
+}
+let ouvert=null;
+function ouvrir(id){const x=D.find(y=>y.id===id);if(!x)return;ouvert=id;
+  $('filNom').textContent=x.client+' · WhatsApp';$('filRef').textContent=(x.ref||'Réclamation en cours d\'enregistrement')+' · '+ST[x.statut];
+  $('filCorps').innerHTML=`<div class="fiche"><b>${ICO[x.motif||'autre']} ${x.motif?TITRE[x.motif]:'Motif à préciser'}</b><br>${esc(det(x))||''}${x.escalade?'<br>Escalade : '+esc(x.escalade):''}${x.note?'<br>Note : '+x.note+'/5':''}</div>`+
+   x.echanges.map(e=>`<div class="bulle ${e.de}">${esc(e.texte).replace(/\*([^*]+)\*/g,'<b>$1</b>')}<div class="q">${heure(e.quand)}</div></div>`).join('');
+  $('fil').classList.add('ouvert');}
+function fermer(){ouvert=null;$('fil').classList.remove('ouvert')}
+function basculer(m){mode=m;filtre='tous';fermer();$('bDirect').classList.toggle('on',m==='direct');$('bExemple').classList.toggle('on',m==='exemple');charger();clearInterval(minuteur);if(m==='direct')minuteur=setInterval(charger,30000)}
+$('bDirect').onclick=()=>basculer('direct');$('bExemple').onclick=()=>basculer('exemple');
+const q=new URLSearchParams(location.search).get('vue');basculer(q==='exemple'?'exemple':'direct');
+</script>
+</body>
+</html>
